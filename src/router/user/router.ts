@@ -12,6 +12,6 @@ router.get('/user/email/:email', router_user.getUserByEmail);
 router.get('/user/:id', router_user.getUserById);
 router.get('/user', router_user.getUsers);
 
-router.put('/user', router_user.updateUser);
+router.put('/user/:id', router_user.updateUser);
 
 export default router;
