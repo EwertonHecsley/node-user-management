@@ -5,6 +5,7 @@ import { ZodError } from 'zod';
 import { createUserSchema } from '../../schema/user/user.schema';
 import { IUSer } from "../../interface/User";
 import { UserUpdateService } from "../../model/user/useCase/User.update";
+import { UserDeleteModel } from "../../model/user/User.delete.model";
 
 export class UserController {
     async getUsers(_req: Request, res: Response) {
@@ -72,6 +73,16 @@ export class UserController {
         const user = await new UserGetModel().getUserByEmail(email);
 
         return user ? res.json({ ...user, password: undefined }) : res.status(404).json({ mensagem: 'Usuário não encontrados.' });
+    }
+
+    async deleteUSer(req: Request, res: Response) {
+        const { id } = req.params;
+        const user = await new UserGetModel().getUserById(parseInt(id));
+        if (!user) return res.status(404).json({ mensagem: 'Usuário não encontrado.' });
+
+        await new UserDeleteModel(parseInt(id)).deleteUser();
+
+        return res.status(204).send();
     }
 
 }

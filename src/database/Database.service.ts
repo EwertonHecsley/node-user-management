@@ -25,4 +25,8 @@ export class DatabaseService {
     async updateUser(id: number, data: IUSer): Promise<IUSer[]> {
         return await knex<IUSer>('users').where({ id }).update(data).returning('*');
     }
+
+    async deleteUser(id: number) {
+        return await knex<IUSer>('users').where({ id }).del();
+    }
 }
