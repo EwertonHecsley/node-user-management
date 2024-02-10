@@ -10,6 +10,7 @@ router.get('/', (req, res) => {
 });
 
 router.post('/user', router_user.createUser);
+router.get('/user/:id', router_user.getUserById);
 router.get('/user', router_user.getUsers);
 
 

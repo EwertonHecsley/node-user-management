@@ -11,4 +11,16 @@ export class UserGetModel {
     async getAllUsers(): Promise<IUSer[]> {
         return await this.databaseService.getAllUsers();
     }
+
+    async getUserByEmail(email: string): Promise<IUSer | undefined> {
+        return await this.databaseService.getUserByEmail(email);
+    }
+
+    async getUserByUsername(username: string): Promise<IUSer | undefined> {
+        return await this.databaseService.getUSerByUsername(username);
+    }
+
+    async getUserById(id: number): Promise<IUSer | undefined> {
+        return await this.databaseService.getUserById(id);
+    }
 }
