@@ -27,10 +27,23 @@ export class UserController {
 
     async getUserById(req: Request, res: Response) {
         const { id } = req.params;
-
         const user = await new UserGetModel().getUserById(parseInt(id));
 
         return user ? res.json({ ...user, password: undefined }) : res.status(404).json({ mensagem: 'Usuário não encontrado.' });
+    }
+
+    async getUserByUsername(req: Request, res: Response) {
+        const { username } = req.params;
+        const user = await new UserGetModel().getUserByUsername(username);
+
+        return user ? res.json({ ...user, password: undefined }) : res.status(404).json({ mensagem: 'Usuário não encontrado.' });
+    }
+
+    async getUserByEmail(req: Request, res: Response) {
+        const { email } = req.params;
+        const user = await new UserGetModel().getUserByEmail(email);
+
+        return user ? res.json({ ...user, password: undefined }) : res.status(404).json({ mensagem: 'Usuário não encontrados.' });
     }
 
 }
