@@ -85,4 +85,4 @@ export class UserController {
         return res.status(204).send();
     }
 
-}
+};
