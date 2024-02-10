@@ -5,7 +5,12 @@ import { UserService } from "../../model/user/useCase/User.create";
 export class UserController {
     async getUsers(_req: Request, res: Response) {
         const userModel = new UserGetModel();
-        const result = await userModel.getAllUsers();
+        const users = await userModel.getAllUsers();
+
+        const result = users.map((user) => {
+            const { password: _, ...resultFormated } = user;
+            return resultFormated;
+        })
 
         return res.json(result);
     };
