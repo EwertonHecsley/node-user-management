@@ -9,6 +9,7 @@ router.get('/', (req, res) => {
     res.send('Hello World!');
 });
 
+router.post('/user', router_user.createUser);
 router.get('/user', router_user.getUsers);
 
 
