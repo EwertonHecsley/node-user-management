@@ -7,7 +7,7 @@ const router_user = new UserController();
 
 router.post('/user', router_user.createUser);
 
-router.delete('/user/id', router_user.deleteUSer);
+router.delete('/user/:id', router_user.deleteUSer);
 
 router.get('/user/username/:username', router_user.getUserByUsername);
 router.get('/user/email/:email', router_user.getUserByEmail);
