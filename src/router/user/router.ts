@@ -10,8 +10,8 @@ router.get('/', (req, res) => {
 });
 
 router.post('/user', router_user.createUser);
-router.get('/user/:username', router_user.getUserByUsername);
-router.get('/user/:email', router_user.getUserByEmail);
+router.get('/user/username/:username', router_user.getUserByUsername);
+router.get('/user/email/:email', router_user.getUserByEmail);
 router.get('/user/:id', router_user.getUserById);
 router.get('/user', router_user.getUsers);
 
