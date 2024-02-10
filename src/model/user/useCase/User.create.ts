@@ -1,5 +1,6 @@
 import { DatabaseService } from "../../../database/Database.service";
 import { IUSer } from "../../../interface/User";
+import { HttpException } from "../../../middleware/HttpException";
 import { HashService } from "../../../service/Hash.service";
 import { UserCreateModel } from "../User.create.model";
 
@@ -16,10 +17,10 @@ export class UserService {
         const { name, username, email, password } = this.user;
 
         const usernameExist = await this.userDatabaseService.getUSerByUsername(username);
-        if (usernameExist) throw new Error(`User: ${username}, already exists`);
+        if (usernameExist) throw new HttpException(400, 'Username já existe.')
 
         const emailExist = await this.userDatabaseService.getUserByEmail(email);
-        if (emailExist) throw new Error(`E-maiil: ${email}, already exists`);
+        if (emailExist) throw new HttpException(400, 'Email já existe.')
 
         const hashedPassword = await this.userServiceHash.hashPassword(password);
 
