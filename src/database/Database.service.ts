@@ -21,4 +21,8 @@ export class DatabaseService {
     async getUserById(id: number): Promise<IUSer | undefined> {
         return await knex<IUSer>('users').where({ id }).first();
     }
+
+    async updateUser(id: number, data: IUSer): Promise<IUSer[]> {
+        return await knex<IUSer>('users').where({ id }).update(data).returning('*');
+    }
 }

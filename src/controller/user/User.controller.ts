@@ -3,6 +3,8 @@ import { UserGetModel } from "../../model/user/User.get.model";
 import { UserService } from "../../model/user/useCase/User.create";
 import { ZodError } from 'zod';
 import { createUserSchema } from '../../schema/user/user.schema';
+import { IUSer } from "../../interface/User";
+import { UserUpdateService } from "../../model/user/useCase/User.update";
 
 export class UserController {
     async getUsers(_req: Request, res: Response) {
@@ -31,6 +33,24 @@ export class UserController {
         const { password: _, ...result } = user[0];
 
         return res.status(201).json({ mensagem: 'Usuário cadastrado com sucesso.', usuario: result });
+    }
+
+    async updateUser(req: Request, res: Response) {
+
+        try {
+            await createUserSchema.parseAsync(req.body);
+        } catch (error) {
+            if (error instanceof ZodError) return res.status(400).json({ mensagem: error.issues[0].message });
+        };
+
+        const { name, username, email, password } = req.body as IUSer
+        const { id } = req.params;
+        const idNumber = parseInt(id);
+
+        const userUpdateService = new UserUpdateService({ id: idNumber, name, username, email, password });
+        await userUpdateService.updateUSer();
+
+        return res.status(204).send();
     }
 
     async getUserById(req: Request, res: Response) {
