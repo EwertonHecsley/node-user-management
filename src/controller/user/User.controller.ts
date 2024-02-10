@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import { UserGetModel } from "../../model/user/User.get.model";
 import { UserService } from "../../model/user/useCase/User.create";
-import { HttpException } from "../../middleware/HttpException";
+import { ZodError } from 'zod';
+import { createUserSchema } from '../../schema/user/user.schema';
 
 export class UserController {
     async getUsers(_req: Request, res: Response) {
@@ -17,6 +18,13 @@ export class UserController {
     };
 
     async createUser(req: Request, res: Response) {
+
+        try {
+            await createUserSchema.parseAsync(req.body);
+        } catch (error) {
+            if (error instanceof ZodError) return res.status(400).json({ mensagem: error.issues[0].message });
+        }
+
         const userService = new UserService(req.body);
         const user = await userService.create();
 
