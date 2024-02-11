@@ -90,7 +90,8 @@ export class UserController {
     async loginUser(req: Request, res: Response) {
         const { usernameOrEmail, password } = req.body as ILogin;
         const { user, token } = await new UserLoginModel({ usernameOrEmail, password }).login()
-        return res.json({ mensagem: 'Usuário logado com sucesso.', usuario: user, token });
+        const { password: _, ...result } = user;
+        return res.json({ mensagem: 'Usuário logado com sucesso.', usuario: result, token });
     };
 
 };
