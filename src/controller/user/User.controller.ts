@@ -6,6 +6,8 @@ import { createUserSchema } from '../../schema/user/user.schema';
 import { IUSer } from "../../interface/User";
 import { UserUpdateService } from "../../model/user/useCase/User.update";
 import { UserDeleteModel } from "../../model/user/User.delete.model";
+import { ILogin } from "../../interface/Login";
+import { UserLoginModel } from "../../model/user/User.login.model";
 
 export class UserController {
     async getUsers(_req: Request, res: Response) {
@@ -84,5 +86,11 @@ export class UserController {
 
         return res.status(204).send();
     }
+
+    async loginUser(req: Request, res: Response) {
+        const { usernameOrEmail, password } = req.body as ILogin;
+        const { user, token } = await new UserLoginModel({ usernameOrEmail, password }).login()
+        return res.json({ mensagem: 'Usuário logado com sucesso.', usuario: user, token });
+    };
 
 };

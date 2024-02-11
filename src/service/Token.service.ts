@@ -1,17 +1,16 @@
 import 'dotenv/config';
 import jwt, { Secret } from 'jsonwebtoken';
-import { DatabaseService } from '../database/Database.service';
+
+type Payload = {
+    id: number;
+    username: string;
+    email: string;
+}
 
 export class TokenService {
-    private databaseService: DatabaseService;
-
-    constructor() {
-        this.databaseService = new DatabaseService();
-    }
-
-    async generateToken(email: string): Promise<string | undefined> {
-        const data = await this.databaseService.getUserByEmail(email);
-        return data && jwt.sign({ id: data.id }, process.env.JWT_KEY as Secret, { expiresIn: '1d' });
+    async generateToken(data: Payload): Promise<string> {
+        const token = jwt.sign(data, process.env.JWT_KEY as Secret, { expiresIn: '1h' });
+        return token;
     }
 
     async verifyToken(token: string) {
