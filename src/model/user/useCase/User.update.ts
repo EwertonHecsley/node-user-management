@@ -1,4 +1,3 @@
-import { number } from "zod";
 import { DatabaseService } from "../../../database/Database.service";
 import { IUSer } from "../../../interface/User";
 import { HttpException } from "../../../middleware/HttpException";
