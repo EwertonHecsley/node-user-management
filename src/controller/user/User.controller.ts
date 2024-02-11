@@ -8,6 +8,7 @@ import { UserUpdateService } from "../../model/user/useCase/User.update";
 import { UserDeleteModel } from "../../model/user/User.delete.model";
 import { ILogin } from "../../interface/Login";
 import { UserLoginModel } from "../../model/user/User.login.model";
+import { loginSchema } from "../../schema/user/login.schema";
 
 export class UserController {
     async getUsers(_req: Request, res: Response) {
@@ -88,6 +89,13 @@ export class UserController {
     }
 
     async loginUser(req: Request, res: Response) {
+
+        try {
+            await loginSchema.parseAsync(req.body);
+        } catch (error) {
+            if (error instanceof ZodError) return res.status(400).json({ mensagem: error.issues[0].message });
+        };
+
         const { usernameOrEmail, password } = req.body as ILogin;
         const { user, token } = await new UserLoginModel({ usernameOrEmail, password }).login()
         const { password: _, ...result } = user;
